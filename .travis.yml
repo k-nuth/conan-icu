@@ -1,65 +1,84 @@
+#
+# Copyright (c) 2017 Bitprim developers (see AUTHORS)
+#
+# This file is part of Bitprim.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+env:
+   global:
+     - CONAN_REFERENCE: "conan-icu/60.2"
+     - CONAN_USERNAME: "bitprim"
+     - CONAN_LOGIN_USERNAME: "bitprim-bintray"
+     - CONAN_CHANNEL: "stable"
+     - CONAN_UPLOAD: "https://api.bintray.com/conan/bitprim/bitprim"
+
 linux: &linux
    os: linux
    sudo: required
    language: python
    python: "3.6"
    services:
-      - docker
+     - docker
 
 osx: &osx
    os: osx
    language: generic
 
 matrix:
-   fast_finish: true
    include:
+
       - <<: *linux
-        env: CONAN_GCC_VERSIONS=4.9 CONAN_DOCKER_IMAGE=lasote/conangcc49 CONAN_ARCHS=x86
+        env: CONAN_GCC_VERSIONS=4.9 CONAN_DOCKER_IMAGE=lasote/conangcc49
+
       - <<: *linux
-        env: CONAN_GCC_VERSIONS=4.9 CONAN_DOCKER_IMAGE=lasote/conangcc49 CONAN_ARCHS=x86_64
+        env: CONAN_GCC_VERSIONS=5 CONAN_DOCKER_IMAGE=lasote/conangcc54
+
       - <<: *linux
-        env: CONAN_GCC_VERSIONS=5 CONAN_DOCKER_IMAGE=lasote/conangcc5 CONAN_ARCHS=x86
+        env: CONAN_GCC_VERSIONS=6 CONAN_DOCKER_IMAGE=lasote/conangcc63
+
       - <<: *linux
-        env: CONAN_GCC_VERSIONS=5 CONAN_DOCKER_IMAGE=lasote/conangcc5 CONAN_ARCHS=x86_64
+        env: CONAN_GCC_VERSIONS=7 CONAN_DOCKER_IMAGE=lasote/conangcc72
+
       - <<: *linux
-        env: CONAN_GCC_VERSIONS=6 CONAN_DOCKER_IMAGE=lasote/conangcc6 CONAN_ARCHS=x86
+        env: CONAN_CLANG_VERSIONS=3.9 CONAN_DOCKER_IMAGE=lasote/conanclang39
+
       - <<: *linux
-        env: CONAN_GCC_VERSIONS=6 CONAN_DOCKER_IMAGE=lasote/conangcc6 CONAN_ARCHS=x86_64
-      - <<: *linux
-        env: CONAN_GCC_VERSIONS=7 CONAN_DOCKER_IMAGE=lasote/conangcc7 CONAN_ARCHS=x86
-      - <<: *linux
-        env: CONAN_GCC_VERSIONS=7 CONAN_DOCKER_IMAGE=lasote/conangcc7 CONAN_ARCHS=x86_64
-      - <<: *linux
-        env: CONAN_CLANG_VERSIONS=3.9 CONAN_DOCKER_IMAGE=lasote/conanclang39 CONAN_ARCHS=x86
-      - <<: *linux
-        env: CONAN_CLANG_VERSIONS=3.9 CONAN_DOCKER_IMAGE=lasote/conanclang39 CONAN_ARCHS=x86_64
-      - <<: *linux
-        env: CONAN_CLANG_VERSIONS=4.0 CONAN_DOCKER_IMAGE=lasote/conanclang40 CONAN_ARCHS=x86
-      - <<: *linux
-        env: CONAN_CLANG_VERSIONS=4.0 CONAN_DOCKER_IMAGE=lasote/conanclang40 CONAN_ARCHS=x86_64
+        env: CONAN_CLANG_VERSIONS=4.0 CONAN_DOCKER_IMAGE=lasote/conanclang40
+
+
       - <<: *osx
         osx_image: xcode7.3
-        env: CONAN_APPLE_CLANG_VERSIONS=7.3 CONAN_ARCHS=x86
-      - <<: *osx
-        osx_image: xcode7.3
-        env: CONAN_APPLE_CLANG_VERSIONS=7.3 CONAN_ARCHS=x86_64
+        env: CONAN_APPLE_CLANG_VERSIONS=7.3 
+        #CONAN_ARCHS=x86_64
       - <<: *osx
         osx_image: xcode8.3
-        env: CONAN_APPLE_CLANG_VERSIONS=8.1 CONAN_ARCHS=x86
-      - <<: *osx
-        osx_image: xcode8.3
-        env: CONAN_APPLE_CLANG_VERSIONS=8.1 CONAN_ARCHS=x86_64
+        env: CONAN_APPLE_CLANG_VERSIONS=8.1
+        #CONAN_ARCHS=x86_64
       - <<: *osx
         osx_image: xcode9
-        env: CONAN_APPLE_CLANG_VERSIONS=9.0 CONAN_ARCHS=x86
-      - <<: *osx
-        osx_image: xcode9
-        env: CONAN_APPLE_CLANG_VERSIONS=9.0 CONAN_ARCHS=x86_64
+        env: CONAN_APPLE_CLANG_VERSIONS=9.0
+        #CONAN_ARCHS=x86_64
 
 install:
-   - chmod +x .travis/install.sh
-   - ./.travis/install.sh
+  - chmod +x .travis/install.sh
+  - ./.travis/install.sh
 
 script:
-   - chmod +x .travis/run.sh
-   - ./.travis/run.sh
+  - export CONAN_PRINT_RUN_COMMANDS=TRUE
+  - export CONAN_LOGGING_LEVEL=10
+  - chmod +x .travis/run.sh
+  - ./.travis/run.sh
+
