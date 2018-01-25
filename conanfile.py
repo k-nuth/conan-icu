@@ -57,7 +57,7 @@ class IcuConan(ConanFile):
 
     def build_requirements(self):
         if self.settings.os == "Windows":
-            self.build_requires("cygwin_installer/2.9.0@bincrafters/stable")
+            self.build_requires("cygwin_installer/2.9.0@bitprim/stable")
             if self.settings.compiler != "Visual Studio":
                 self.build_requires("mingw_installer/1.0@conan/stable")
 
