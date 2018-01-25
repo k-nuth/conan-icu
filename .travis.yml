@@ -19,7 +19,7 @@
 
 env:
    global:
-     - CONAN_REFERENCE: "conan-icu/60.2"
+     - CONAN_REFERENCE: "icu/60.2"
      - CONAN_USERNAME: "bitprim"
      - CONAN_LOGIN_USERNAME: "bitprim-bintray"
      - CONAN_CHANNEL: "stable"
