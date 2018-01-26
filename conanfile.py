@@ -45,6 +45,8 @@ class IcuConan(ConanFile):
                       "with_unit_tests=False", \
                       "silent=True"
     
+    build_policy = "missing" # "always"
+
     # Dictionary storing strings useful for setting up the configuration and make command lines
     cfg = { 'enable_debug': '', 
             'platform': '', 
