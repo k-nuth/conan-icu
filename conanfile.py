@@ -268,10 +268,10 @@ class IcuConan(ConanFile):
 
         if self.fPIC_enabled:
             cflags = 'CFLAGS=-fPIC %s' % (" ".join(self.deps_cpp_info.cflags))
-            cpp_flags = 'CPPFLAGS=-fPIC %s' % (" ".join(self.deps_cpp_info.cppflags))
+            cpp_flags = 'CXXFLAGS=-fPIC %s' % (" ".join(self.deps_cpp_info.cppflags))
         else:
             cflags = 'CFLAGS=%s' % (" ".join(self.deps_cpp_info.cflags))
-            cpp_flags = 'CPPFLAGS=%s' % (" ".join(self.deps_cpp_info.cppflags))
+            cpp_flags = 'CXXFLAGS=%s' % (" ".join(self.deps_cpp_info.cppflags))
 
         config_cmd = "{cflags} {cppflags} ../source/runConfigureICU {enable_debug} " \
                      "{platform} {host} {lib_arch_bits} {outdir} " \
