@@ -36,11 +36,13 @@ class IcuConan(ConanFile):
     exports_sources = [ "patches/*.patch" ]
 
     options = {"shared": [True, False],
+               "fPIC": [True, False],
                "data_packaging": [ "files", "archive", "library", "static" ],
                "with_unit_tests": [True, False],
                "silent": [True, False]}
 
     default_options = "shared=False", \
+                      "fPIC=True", \
                       "data_packaging=archive", \
                       "with_unit_tests=False", \
                       "silent=True"
@@ -57,11 +59,52 @@ class IcuConan(ConanFile):
             'data_packaging': '', 
             'general_opts': '' }
 
+    @property
+    def msvc_mt_build(self):
+        return "MT" in str(self.settings.compiler.runtime)
+
+    @property
+    def fPIC_enabled(self):
+        if self.settings.compiler == "Visual Studio":
+            return False
+        else:
+            return self.options.fPIC
+
+    @property
+    def is_shared(self):
+        # if self.options.shared and self.msvc_mt_build:
+        if self.settings.compiler == "Visual Studio" and self.msvc_mt_build:
+            return False
+        else:
+            return self.options.shared
+
+    def config_options(self):
+        if self.settings.compiler == "Visual Studio":
+            self.options.remove("fPIC")
+
+            if self.options.shared and self.msvc_mt_build:
+                self.options.remove("shared")
+
+
+    def package_id(self):
+        # ICU unit testing shouldn't affect the package's ID
+        self.info.options.with_unit_tests = "any"
+
+        # Verbosity doesn't affect package's ID
+        self.info.options.silent = "any"
+
+        #For Bitprim Packages libstdc++ and libstdc++11 are the same
+        if self.settings.compiler == "gcc" or self.settings.compiler == "clang":
+            if str(self.settings.compiler.libcxx) == "libstdc++" or str(self.settings.compiler.libcxx) == "libstdc++11":
+                self.info.settings.compiler.libcxx = "ANY"
+
+
     def build_requirements(self):
         if self.settings.os == "Windows":
-            self.build_requires("cygwin_installer/2.9.0@bitprim/stable")
             if self.settings.compiler != "Visual Studio":
                 self.build_requires("mingw_installer/1.0@conan/stable")
+            else:
+                self.build_requires("cygwin_installer/2.9.0@bitprim/stable")
 
     def configure(self):
         if self.settings.compiler in [ "gcc", "clang" ]:
@@ -105,7 +148,7 @@ class IcuConan(ConanFile):
         self.cfg['silent'] = '--silent' if self.options.silent else 'VERBOSE=1'
         self.cfg['enable_debug'] = '--enable-debug --disable-release' if self.settings.build_type == 'Debug' else ''
         self.cfg['arch_bits'] = '64' if self.settings.arch == 'x86_64' else '32'
-        self.cfg['enable_static'] = '--enable-static --disable-shared' if not self.options.shared else '--enable-shared --disable-static'
+        self.cfg['enable_static'] = '--enable-static --disable-shared' if not self.is_shared else '--enable-shared --disable-static'
         self.cfg['data_packaging'] = '--with-data-packaging={0}'.format(self.options.data_packaging)
 
         self.cfg['general_opts'] = '--disable-samples --disable-layout --disable-layoutex'
@@ -151,12 +194,6 @@ class IcuConan(ConanFile):
             self.copy("*", dst="share", src=share_dir_src, keep_path=True, symlinks=True)
 
 
-    def package_id(self):
-        # ICU unit testing shouldn't affect the package's ID
-        self.info.options.with_unit_tests = "any"
-
-        # Verbosity doesn't affect package's ID
-        self.info.options.silent = "any"
 
 
     def package_info(self):
@@ -185,7 +222,8 @@ class IcuConan(ConanFile):
 
         self.env_info.PATH.append(os.path.join(self.package_folder, bin_dir))
 
-        if not self.options.shared:
+
+        if not self.is_shared:
             self.cpp_info.defines.append("U_STATIC_IMPLEMENTATION")
             if self.settings.os == 'Linux':
                 self.cpp_info.libs.append('dl')
@@ -228,10 +266,20 @@ class IcuConan(ConanFile):
         #                flags=re.IGNORECASE).replace('\\', '/')
 
 
-        config_cmd = "../source/runConfigureICU {enable_debug} " \
+        if self.fPIC_enabled:
+            cflags = 'CFLAGS=-fPIC %s' % (" ".join(self.deps_cpp_info.cflags))
+            cpp_flags = 'CPPFLAGS=-fPIC %s' % (" ".join(self.deps_cpp_info.cppflags))
+        else:
+            cflags = 'CFLAGS=%s' % (" ".join(self.deps_cpp_info.cflags))
+            cpp_flags = 'CPPFLAGS=%s' % (" ".join(self.deps_cpp_info.cppflags))
+
+        config_cmd = "{cflags} {cppflags} ../source/runConfigureICU {enable_debug} " \
                      "{platform} {host} {lib_arch_bits} {outdir} " \
                      "{enable_static} {data_packaging} {general}" \
-                     "".format(enable_debug=self.cfg['enable_debug'],
+                     "".format(
+                               cflags=cflags,
+                               cppflags=cpp_flags,
+                               enable_debug=self.cfg['enable_debug'],
                                platform=self.cfg['platform'],
                                host=self.cfg['host'],
                                lib_arch_bits='--with-library-bits=%s' % self.cfg['arch_bits'],
@@ -239,6 +287,8 @@ class IcuConan(ConanFile):
                                enable_static=self.cfg['enable_static'],
                                data_packaging=self.cfg['data_packaging'],
                                general=self.cfg['general_opts'])
+
+        self.output.info("config_cmd: " + config_cmd)
 
         return config_cmd
 
@@ -282,7 +332,7 @@ class IcuConan(ConanFile):
 
     def build_autotools(self):
         env_build = AutoToolsBuildEnvironment(self)
-        if not self.options.shared:
+        if not self.is_shared:
             env_build.defines.append("U_STATIC_IMPLEMENTATION")
 
         with tools.environment_append(env_build.vars):
