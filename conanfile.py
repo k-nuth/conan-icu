@@ -45,7 +45,7 @@ class IcuConan(ConanFile):
                       "fPIC=True", \
                       "data_packaging=archive", \
                       "with_unit_tests=False", \
-                      "silent=True"
+                      "silent=False"
     
     build_policy = "missing" # "always"
 
@@ -107,9 +107,9 @@ class IcuConan(ConanFile):
             else:
                 self.build_requires("cygwin_installer/2.9.0@bitprim/stable")
 
-    def configure(self):
-        if self.settings.compiler in [ "gcc", "clang" ]:
-            self.settings.compiler.libcxx = 'libstdc++11'
+    # def configure(self):
+    #     if self.settings.compiler in [ "gcc", "clang" ]:
+    #         self.settings.compiler.libcxx = 'libstdc++11'
 
     def source(self):
         self.output.info("Fetching sources: {0}.tgz".format(self.source_url))
@@ -267,12 +267,28 @@ class IcuConan(ConanFile):
         #                flags=re.IGNORECASE).replace('\\', '/')
 
 
-        if self.fPIC_enabled:
-            cflags = 'CFLAGS=-fPIC %s' % (" ".join(self.deps_cpp_info.cflags))
-            cpp_flags = 'CXXFLAGS=-fPIC %s' % (" ".join(self.deps_cpp_info.cppflags))
-        else:
-            cflags = 'CFLAGS=%s' % (" ".join(self.deps_cpp_info.cflags))
-            cpp_flags = 'CXXFLAGS=%s' % (" ".join(self.deps_cpp_info.cppflags))
+        # if self.fPIC_enabled:
+        #     cflags = 'CFLAGS=-fPIC %s' % (" ".join(self.deps_cpp_info.cflags))
+        #     cpp_flags = 'CXXFLAGS=-fPIC %s' % (" ".join(self.deps_cpp_info.cppflags))
+        # else:
+        #     cflags = 'CFLAGS=%s' % (" ".join(self.deps_cpp_info.cflags))
+        #     cpp_flags = 'CXXFLAGS=%s' % (" ".join(self.deps_cpp_info.cppflags))
+
+
+        fpic_str = '-fPIC' if self.fPIC_enabled else ''
+
+        cxx11_abi_str = '' 
+        if self.settings.compiler == "gcc":
+            if float(str(self.settings.compiler.version)) >= 5:
+                cxx11_abi_str = '-D_GLIBCXX_USE_CXX11_ABI=1' 
+            else:
+                cxx11_abi_str = '-D_GLIBCXX_USE_CXX11_ABI=0' 
+        elif self.settings.compiler == "clang":
+            if str(self.settings.compiler.libcxx) == "libstdc++" or str(self.settings.compiler.libcxx) == "libstdc++11":
+                cxx11_abi_str = '-D_GLIBCXX_USE_CXX11_ABI=1' 
+
+        cflags = 'CFLAGS=%s %s' % (fpic_str, " ".join(self.deps_cpp_info.cflags))
+        cpp_flags = 'CXXFLAGS=%s %s %s' % (fpic_str, cxx11_abi_str, " ".join(self.deps_cpp_info.cppflags))
 
         config_cmd = "{cflags} {cppflags} ../source/runConfigureICU {enable_debug} " \
                      "{platform} {host} {lib_arch_bits} {outdir} " \
