@@ -287,8 +287,8 @@ class IcuConan(ConanFile):
             if str(self.settings.compiler.libcxx) == "libstdc++" or str(self.settings.compiler.libcxx) == "libstdc++11":
                 cxx11_abi_str = '-D_GLIBCXX_USE_CXX11_ABI=1' 
 
-        cflags = 'CFLAGS=%s %s' % (fpic_str, " ".join(self.deps_cpp_info.cflags))
-        cpp_flags = 'CXXFLAGS=%s %s %s' % (fpic_str, cxx11_abi_str, " ".join(self.deps_cpp_info.cppflags))
+        cflags = 'CFLAGS="%s %s"' % (fpic_str, " ".join(self.deps_cpp_info.cflags))
+        cpp_flags = 'CXXFLAGS="%s %s %s"' % (fpic_str, cxx11_abi_str, " ".join(self.deps_cpp_info.cppflags))
 
         config_cmd = "{cflags} {cppflags} ../source/runConfigureICU {enable_debug} " \
                      "{platform} {host} {lib_arch_bits} {outdir} " \
