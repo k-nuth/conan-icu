@@ -278,14 +278,14 @@ class IcuConan(ConanFile):
         fpic_str = '-fPIC' if self.fPIC_enabled else ''
 
         cxx11_abi_str = '' 
-        if self.settings.compiler == "gcc":
-            if float(str(self.settings.compiler.version)) >= 5:
-                cxx11_abi_str = '-D_GLIBCXX_USE_CXX11_ABI=1' 
-            else:
-                cxx11_abi_str = '-D_GLIBCXX_USE_CXX11_ABI=0' 
-        elif self.settings.compiler == "clang":
-            if str(self.settings.compiler.libcxx) == "libstdc++" or str(self.settings.compiler.libcxx) == "libstdc++11":
-                cxx11_abi_str = '-D_GLIBCXX_USE_CXX11_ABI=1' 
+        # if self.settings.compiler == "gcc":
+        #     if float(str(self.settings.compiler.version)) >= 5:
+        #         cxx11_abi_str = '-D_GLIBCXX_USE_CXX11_ABI=1' 
+        #     else:
+        #         cxx11_abi_str = '-D_GLIBCXX_USE_CXX11_ABI=0' 
+        # elif self.settings.compiler == "clang":
+        #     if str(self.settings.compiler.libcxx) == "libstdc++" or str(self.settings.compiler.libcxx) == "libstdc++11":
+        #         cxx11_abi_str = '-D_GLIBCXX_USE_CXX11_ABI=1' 
 
         cflags = 'CFLAGS="%s %s"' % (fpic_str, " ".join(self.deps_cpp_info.cflags))
         cpp_flags = 'CXXFLAGS="%s %s %s"' % (fpic_str, cxx11_abi_str, " ".join(self.deps_cpp_info.cppflags))
