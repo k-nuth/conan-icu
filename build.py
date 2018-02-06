@@ -11,7 +11,7 @@ if __name__ == "__main__":
 
         if (settings["build_type"] == "Release" or settings["build_type"] == "Debug") \
                 and not options["icu:shared"] \
-                and (not "compiler.libcxx" in settings or settings["compiler.libcxx"] == "libstdc++"):
+                and (not "compiler.libcxx" in settings or settings["compiler.libcxx"] != "libstdc++11"):
 
                 # and not ("compiler.libcxx" in settings and settings["compiler.libcxx"] == "libstdc++"):
 
