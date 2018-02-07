@@ -43,7 +43,7 @@ class IcuConan(ConanFile):
 
     default_options = "shared=False", \
                       "fPIC=True", \
-                      "data_packaging=archive", \
+                      "data_packaging=static", \
                       "with_unit_tests=False", \
                       "silent=False"
     
