@@ -203,15 +203,22 @@ class IcuConan(ConanFile):
 
         # if icudata is not last, it fails to build on some platforms (Windows)
         # some linkers are not clever enough to be able to link
+        # icuuc need to be just before icudata
         self.cpp_info.libs = []
         vtag = self.version.split('.')[0]
         keep = False
+        keep2 = False
         for lib in tools.collect_libs(self, lib_dir):
             if not vtag in lib:
                 if 'icudata' in lib or 'icudt' in lib:
                     keep = lib
+                elif 'icuuc' in lib:
+                    keep2 = lib
                 else:
                     self.cpp_info.libs.append(lib)
+
+        if keep2:
+            self.cpp_info.libs.append(keep2)
 
         if keep:
             self.cpp_info.libs.append(keep)
