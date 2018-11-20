@@ -39,10 +39,10 @@ environment:
           CONAN_VISUAL_VERSIONS: 14
 
         - MINGW_CONFIGURATIONS: "8@x86_64@seh@posix"
-        - MINGW_CONFIGURATIONS: "7@x86_64@seh@posix"
-        - MINGW_CONFIGURATIONS: "6@x86_64@seh@posix"
-        - MINGW_CONFIGURATIONS: "5@x86_64@seh@posix"
-        # - MINGW_CONFIGURATIONS: "4.9@x86_64@seh@posix"
+        # - MINGW_CONFIGURATIONS: "7@x86_64@seh@posix"
+        # - MINGW_CONFIGURATIONS: "6@x86_64@seh@posix"
+        # - MINGW_CONFIGURATIONS: "5@x86_64@seh@posix"
+        # # - MINGW_CONFIGURATIONS: "4.9@x86_64@seh@posix"
         
 install:
   - set PATH=%PATH%;%PYTHON%/Scripts/
@@ -51,5 +51,12 @@ install:
   - conan user # It creates the conan data directory
 
 test_script:
-  - python build.py
+  - set PATH=C:\MinGW\bin;%PATH%
 
+  - IF "%MINGW_CONFIGURATIONS%" NEQ "" (
+      gcc --version
+    )
+
+  - git submodule init
+  - git submodule update
+  - python build.py

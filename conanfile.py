@@ -20,8 +20,9 @@
 from conans import ConanFile, tools, AutoToolsBuildEnvironment
 import os
 import glob
+from ci_utils import BitprimCxx11ABIFixer
 
-class IcuConan(ConanFile):
+class IcuConan(BitprimCxx11ABIFixer):
     name = "icu"
     version = "60.2"
     homepage = "http://site.icu-project.org"
@@ -33,19 +34,23 @@ class IcuConan(ConanFile):
     source_url = "http://download.icu-project.org/files/icu4c/{0}/icu4c-{1}-src".format(version,version.replace('.', '_'))
     data_url = "http://download.icu-project.org/files/icu4c/{0}/icu4c-{1}-data".format(version,version.replace('.', '_'))
 
+    exports = "conan_*", "ci_utils/*"
     exports_sources = [ "patches/*.patch" ]
 
     options = {"shared": [True, False],
                "fPIC": [True, False],
                "data_packaging": [ "files", "archive", "library", "static" ],
                "with_unit_tests": [True, False],
-               "silent": [True, False]}
+               "silent": [True, False],
+               "glibcxx_supports_cxx11_abi": "ANY",
+               }
 
     default_options = "shared=False", \
                       "fPIC=True", \
                       "data_packaging=static", \
                       "with_unit_tests=False", \
-                      "silent=False"
+                      "silent=False", \
+                      "glibcxx_supports_cxx11_abi=_DUMMY_",
     
     build_policy = "missing" # "always"
 
@@ -85,18 +90,22 @@ class IcuConan(ConanFile):
             if self.options.shared and self.msvc_mt_build:
                 self.options.remove("shared")
 
+    def configure(self):
+        BitprimCxx11ABIFixer.configure(self)
+
 
     def package_id(self):
+        BitprimCxx11ABIFixer.package_id(self)
         # ICU unit testing shouldn't affect the package's ID
         self.info.options.with_unit_tests = "any"
 
         # Verbosity doesn't affect package's ID
         self.info.options.silent = "any"
 
-        #For Bitprim Packages libstdc++ and libstdc++11 are the same
-        if self.settings.compiler == "gcc" or self.settings.compiler == "clang":
-            if str(self.settings.compiler.libcxx) == "libstdc++" or str(self.settings.compiler.libcxx) == "libstdc++11":
-                self.info.settings.compiler.libcxx = "ANY"
+        # #For Bitprim Packages libstdc++ and libstdc++11 are the same
+        # if self.settings.compiler == "gcc" or self.settings.compiler == "clang":
+        #     if str(self.settings.compiler.libcxx) == "libstdc++" or str(self.settings.compiler.libcxx) == "libstdc++11":
+        #         self.info.settings.compiler.libcxx = "ANY"
 
 
     def build_requirements(self):
@@ -106,10 +115,6 @@ class IcuConan(ConanFile):
                 self.build_requires("msys2_installer/20161025@bitprim/stable")
             else:
                 self.build_requires("cygwin_installer/2.9.0@bitprim/stable")
-
-    # def configure(self):
-    #     if self.settings.compiler in [ "gcc", "clang" ]:
-    #         self.settings.compiler.libcxx = 'libstdc++11'
 
     def source(self):
         self.output.info("Fetching sources: {0}.tgz".format(self.source_url))
