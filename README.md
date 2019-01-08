@@ -63,7 +63,3 @@ It does *not* in any way apply or is related to the actual software being packag
 
 [MIT](https://github.com/bitprim/conan-icu.git/blob/stable/63.1/LICENSE.md)
 
-## Patches
-
-Some of the MINGW patches have been obtained from the MINGW ICU Package of Alexpux's Github repository [MINGW-packages](https://github.com/Alexpux/MINGW-packages/tree/master/mingw-w64-icu).
-
