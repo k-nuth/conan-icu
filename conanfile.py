@@ -24,7 +24,7 @@ from ci_utils import BitprimCxx11ABIFixer
 
 class IcuConan(BitprimCxx11ABIFixer):
     name = "icu"
-    version = "60.2"
+    version = "63.1"
     homepage = "http://site.icu-project.org"
     license = "http://www.unicode.org/copyright.html#License"
     description = "ICU is a mature, widely used set of C/C++ and Java libraries " \
