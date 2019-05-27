@@ -1,7 +1,7 @@
 #
-# Copyright (c) 2017 Bitprim developers (see AUTHORS)
+# Copyright (c) 2016-2019 Knuth Project.
 #
-# This file is part of Bitprim.
+# This file is part of Knuth Project.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as published by
@@ -20,9 +20,9 @@
 from conans import ConanFile, tools, AutoToolsBuildEnvironment
 import os
 import glob
-from ci_utils import BitprimCxx11ABIFixer
+from ci_utils import KnuthCxx11ABIFixer
 
-class IcuConan(BitprimCxx11ABIFixer):
+class IcuConan(KnuthCxx11ABIFixer):
     name = "icu"
     version = "60.2"
     homepage = "http://site.icu-project.org"
@@ -91,18 +91,18 @@ class IcuConan(BitprimCxx11ABIFixer):
                 self.options.remove("shared")
 
     def configure(self):
-        BitprimCxx11ABIFixer.configure(self)
+        KnuthCxx11ABIFixer.configure(self)
 
 
     def package_id(self):
-        BitprimCxx11ABIFixer.package_id(self)
+        KnuthCxx11ABIFixer.package_id(self)
         # ICU unit testing shouldn't affect the package's ID
         self.info.options.with_unit_tests = "any"
 
         # Verbosity doesn't affect package's ID
         self.info.options.silent = "any"
 
-        # #For Bitprim Packages libstdc++ and libstdc++11 are the same
+        # #For Knuth Packages libstdc++ and libstdc++11 are the same
         # if self.settings.compiler == "gcc" or self.settings.compiler == "clang":
         #     if str(self.settings.compiler.libcxx) == "libstdc++" or str(self.settings.compiler.libcxx) == "libstdc++11":
         #         self.info.settings.compiler.libcxx = "ANY"
