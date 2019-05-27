@@ -113,9 +113,9 @@ install:
 script:
   - export CONAN_PRINT_RUN_COMMANDS=TRUE
   - export CONAN_LOGGING_LEVEL=10
-  # - chmod +x .travis/run.sh
-  # - ./.travis/run.sh
-  - chmod +x ci_utils/.travis/run.sh
-  - ./ci_utils/.travis/run.sh
+  - chmod +x .travis/run.sh
+  - ./.travis/run.sh
+  # - chmod +x ci_utils/.travis/run.sh
+  # - ./ci_utils/.travis/run.sh
 
 
