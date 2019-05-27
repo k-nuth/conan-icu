@@ -35,7 +35,7 @@ class IcuConan(KnuthCxx11ABIFixer):
     data_url = "http://download.icu-project.org/files/icu4c/{0}/icu4c-{1}-data".format(version,version.replace('.', '_'))
 
     exports = "conan_*", "ci_utils/*"
-    exports_sources = [ "patches/*.patch" ]
+    # exports_sources = [ "patches/*.patch" ]
 
     options = {"shared": [True, False],
                "fPIC": [True, False],
@@ -131,8 +131,8 @@ class IcuConan(KnuthCxx11ABIFixer):
                         '0014-mingwize-pkgdata.mingw.patch',
                         '0020-workaround-missing-locale.patch' ]
 
-        if self.settings.compiler != 'Visual Studio' and self.settings.os == 'Windows':
-            self.apply_patches(patchfiles)
+        # if self.settings.compiler != 'Visual Studio' and self.settings.os == 'Windows':
+        #     self.apply_patches(patchfiles)
 
         if self.settings.compiler == 'Visual Studio':
             runConfigureICU_file = os.path.join('sources', 'source','runConfigureICU')
@@ -245,7 +245,7 @@ class IcuConan(KnuthCxx11ABIFixer):
                 self.cpp_info.libs.append('advapi32')
                 
         if self.settings.compiler in [ "gcc", "clang" ]:
-            self.cpp_info.cppflags = ["-std=c++11"]
+            self.cpp_info.cppflags = ["-std=c++14"]
 
 
     def update_config_files(self):
@@ -261,10 +261,10 @@ class IcuConan(KnuthCxx11ABIFixer):
             tools.download('http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f={0};hb=HEAD'.format(cfg_update),
                            dst_config)
 
-    def apply_patches(self,patchfiles):
-        for patch in patchfiles:
-            patchfile = os.path.join('patches',patch)
-            tools.patch(base_path=os.path.join('sources'), patch_file=patchfile, strip=1)
+    # def apply_patches(self,patchfiles):
+    #     for patch in patchfiles:
+    #         patchfile = os.path.join('patches',patch)
+    #         tools.patch(base_path=os.path.join('sources'), patch_file=patchfile, strip=1)
 
 
     def build_config_cmd(self):
