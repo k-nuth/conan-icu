@@ -24,7 +24,7 @@ from ci_utils import KnuthCxx11ABIFixer
 
 class IcuConan(KnuthCxx11ABIFixer):
     name = "icu"
-    version = "64.2"
+    version = "63.1"
     homepage = "http://site.icu-project.org"
     license = "http://www.unicode.org/copyright.html#License"
     description = "ICU is a mature, widely used set of C/C++ and Java libraries " \
@@ -245,7 +245,7 @@ class IcuConan(KnuthCxx11ABIFixer):
                 self.cpp_info.libs.append('advapi32')
                 
         if self.settings.compiler in [ "gcc", "clang" ]:
-            self.cpp_info.cppflags = ["-std=c++17"]
+            self.cpp_info.cppflags = ["-std=c++11"]
 
 
     def update_config_files(self):
