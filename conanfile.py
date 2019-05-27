@@ -245,7 +245,7 @@ class IcuConan(KnuthCxx11ABIFixer):
                 self.cpp_info.libs.append('advapi32')
                 
         if self.settings.compiler in [ "gcc", "clang" ]:
-            self.cpp_info.cppflags = ["-std=c++11"]
+            self.cpp_info.cppflags = ["-std=c++17"]
 
 
     def update_config_files(self):
