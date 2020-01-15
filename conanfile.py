@@ -22,6 +22,8 @@ import os
 import glob
 from ci_utils import KnuthCxx11ABIFixer
 
+#TODO(fernando): implement microarch optimizations
+
 class IcuConan(KnuthCxx11ABIFixer):
     name = "icu"
     version = "65.1"
@@ -31,8 +33,12 @@ class IcuConan(KnuthCxx11ABIFixer):
                   "providing Unicode and Globalization support for software applications."
     url = "https://github.com/sigmoidal/conan-icu"
     settings = "os", "arch", "compiler", "build_type"
-    source_url = "http://download.icu-project.org/files/icu4c/{0}/icu4c-{1}-src".format(version,version.replace('.', '_'))
-    data_url = "http://download.icu-project.org/files/icu4c/{0}/icu4c-{1}-data".format(version,version.replace('.', '_'))
+
+    # source_url = "http://download.icu-project.org/files/icu4c/{0}/icu4c-{1}-src.tgz".format(version,version.replace('.', '_'))
+    # data_url = "http://download.icu-project.org/files/icu4c/{0}/icu4c-{1}-data".format(version,version.replace('.', '_'))
+
+    source_url = "https://github.com/unicode-org/icu/releases/download/release-{0}/icu4c-{1}-src.tgz".format(version.replace('.', '-'), version.replace('.', '_'))
+    data_url = "https://github.com/unicode-org/icu/releases/download/release-{0}/icu4c-{1}-data.zip".format(version.replace('.', '-'), version.replace('.', '_'))
 
     exports = "conan_*", "ci_utils/*"
     # exports_sources = [ "patches/*.patch" ]
@@ -117,8 +123,8 @@ class IcuConan(KnuthCxx11ABIFixer):
                 self.build_requires("cygwin_installer/2.9.0@bitprim/stable")
 
     def source(self):
-        self.output.info("Fetching sources: {0}.tgz".format(self.source_url))
-        tools.get("{0}.tgz".format(self.source_url))
+        self.output.info("Fetching sources: {0}".format(self.source_url))
+        tools.get(self.source_url)
         os.rename(self.name, 'sources')
 
     def build(self):
