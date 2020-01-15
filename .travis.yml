@@ -19,7 +19,7 @@
 
 env:
    global:
-     - CONAN_REFERENCE: "icu/63.1"
+     - CONAN_REFERENCE: "icu/65.1"
      - CONAN_USERNAME: "kth"
      - CONAN_LOGIN_USERNAME: "fpelliccioni"
      - CONAN_CHANNEL: "stable"

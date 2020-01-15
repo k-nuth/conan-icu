@@ -25,7 +25,7 @@ environment:
     # PYTHON_VERSION: "2.7.8"
     # PYTHON_ARCH: "32"
 
-    CONAN_REFERENCE: "icu/63.1"
+    CONAN_REFERENCE: "icu/65.1"
     CONAN_USERNAME: "kth"
     CONAN_LOGIN_USERNAME: "fpelliccioni"
     CONAN_CHANNEL: "stable"
@@ -40,13 +40,17 @@ environment:
           CONAN_VISUAL_VERSIONS: 15
           VS150COMNTOOLS: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\Tools\\"
 
-        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-          CONAN_VISUAL_VERSIONS: 14
+        # - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+        #   CONAN_VISUAL_VERSIONS: 14
 
-        - MINGW_CONFIGURATIONS: "9@x86_64@seh@posix"
+
+      #TODO(fernando): enable MinGW 9 when toolchain be available 
+      #                https://sourceforge.net/projects/mingw-w64/files/Toolchains%20targetting%20Win64/
+      # - MINGW_CONFIGURATIONS: "9@x86_64@seh@posix"
+
         - MINGW_CONFIGURATIONS: "8@x86_64@seh@posix"
-        - MINGW_CONFIGURATIONS: "7@x86_64@seh@posix"
 
+        # - MINGW_CONFIGURATIONS: "7@x86_64@seh@posix"
         # - MINGW_CONFIGURATIONS: "6@x86_64@seh@posix"
         # - MINGW_CONFIGURATIONS: "5@x86_64@seh@posix"
         # # - MINGW_CONFIGURATIONS: "4.9@x86_64@seh@posix"
