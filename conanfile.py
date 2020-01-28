@@ -26,7 +26,7 @@ from ci_utils import KnuthCxx11ABIFixer
 
 class IcuConan(KnuthCxx11ABIFixer):
     name = "icu"
-    version = "65.1"
+    version = "64.2"
     homepage = "http://site.icu-project.org"
     license = "http://www.unicode.org/copyright.html#License"
     description = "ICU is a mature, widely used set of C/C++ and Java libraries " \
