@@ -10,7 +10,7 @@ cirrus_freebsd_clang_test_task:
     # CONAN_GCC_VERSIONS: 9
     CONAN_CLANG_VERSIONS: "9, 8"
     # CONAN_CLANG_VERSIONS: "7.0, 6.0"
-    CONAN_REFERENCE: "icu/64.2"
+    CONAN_REFERENCE: "icu/65.1"
     CONAN_USERNAME: "kth"
     CONAN_LOGIN_USERNAME: "fpelliccioni"
     CONAN_CHANNEL: "stable"

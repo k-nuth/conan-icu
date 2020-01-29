@@ -1,6 +1,6 @@
 [![Download](https://api.bintray.com/packages/k-nuth/kth/icu%3Akth/images/download.svg) ](https://bintray.com/k-nuth/kth/icu%3Akth/_latestVersion)
-[![Build Status](https://travis-ci.org/k-nuth/kth-conan-icu.svg?branch=stable%2F64.2)](https://travis-ci.org/kth/kth-conan-icu)
-[![Build status](https://ci.appveyor.com/api/projects/status/github/k-nuth/kth-conan-icu?branch=stable%2F64.2&svg=true)](https://ci.appveyor.com/project/k-nuth/kth-conan-icu)
+[![Build Status](https://travis-ci.org/k-nuth/kth-conan-icu.svg?branch=stable%2F65.1)](https://travis-ci.org/kth/kth-conan-icu)
+[![Build status](https://ci.appveyor.com/api/projects/status/github/k-nuth/kth-conan-icu?branch=stable%2F65.1&svg=true)](https://ci.appveyor.com/project/k-nuth/kth-conan-icu)
 [![Build Status](https://api.cirrus-ci.com/github/k-nuth/kth-conan-icu.svg?branch=master)](https://cirrus-ci.com/github/k-nuth/kth-conan-icu)
 
 [Conan.io](https://conan.io) package recipe for [*icu*](http://site.icu-project.org).
@@ -13,14 +13,14 @@ The packages generated with this **conanfile** can be found on [Bintray](https:/
 
 ### Basic setup
 
-    $ conan install icu/64.2@kth/stable
+    $ conan install icu/65.1@kth/stable
 
 ### Project setup
 
 If you handle multiple dependencies in your project is better to add a *conanfile.txt*
 
     [requires]
-    icu/64.2@kth/stable
+    icu/65.1@kth/stable
 
 
 Complete the installation of requirements for your project running:
@@ -54,7 +54,7 @@ The following command both runs all the steps of the conan file, and publishes t
 
 ## Upload
 
-    $ conan upload icu/64.2@kth/stable --all -r kth
+    $ conan upload icu/65.1@kth/stable --all -r kth
 
 
 ## Conan Recipe License
@@ -62,5 +62,5 @@ The following command both runs all the steps of the conan file, and publishes t
 NOTE: The conan recipe license applies only to the files of this recipe, which can be used to build and package icu.
 It does *not* in any way apply or is related to the actual software being packaged.
 
-[MIT](https://github.com/k-nuth/kth-conan-icu.git/blob/stable/64.2/LICENSE.md)
+[MIT](https://github.com/k-nuth/kth-conan-icu.git/blob/stable/65.1/LICENSE.md)
 
