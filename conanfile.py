@@ -22,14 +22,9 @@ import glob
 import platform
 import shutil
 from conans import ConanFile, tools, AutoToolsBuildEnvironment
-# from kthbuild import KnuthCxx11ABIFixer
 from kthbuild import KnuthConanFile
 
-
-# class ICUBase(ConanFile):
-# class ICUBase(KnuthCxx11ABIFixer):
 class ICUBase(KnuthConanFile):
-
     def recipe_dir(self):
         return os.path.dirname(os.path.abspath(__file__))
 
@@ -68,9 +63,8 @@ class ICUBase(KnuthConanFile):
                        "march_id": '_DUMMY_',
                         }
 
-    # url: "https://github.com/unicode-org/icu/releases/download/release-64-2/icu4c-64_2-src.tgz"
-    # sha256: "627d5d8478e6d96fc8c90fed4851239079a561a6a8b9e48b0892f24e82d31d6c"
-
+    # 64.2 url: "https://github.com/unicode-org/icu/releases/download/release-64-2/icu4c-64_2-src.tgz"
+    # 64.2 sha256: "627d5d8478e6d96fc8c90fed4851239079a561a6a8b9e48b0892f24e82d31d6c"
     source_url = "https://github.com/unicode-org/icu/releases/download/release-{0}/icu4c-{1}-src.tgz".format(version.replace('.', '-'), version.replace('.', '_'))
     data_url = "https://github.com/unicode-org/icu/releases/download/release-{0}/icu4c-{1}-data.zip".format(version.replace('.', '-'), version.replace('.', '_'))
 
@@ -285,7 +279,7 @@ class ICUBase(KnuthConanFile):
         del self.info.options.verbose           # Verbosity doesn't affect package's ID
         del self.info.options.microarchitecture #TODO(fernando): implement it
         del self.info.options.fix_march
-        del self.info.options.march_id
+        del self.info.options.march_id          #TODO(fernando): implement it
 
     def config_options(self):
         if self.settings.os == "Windows":
