@@ -34,7 +34,7 @@ class ICUBase(KnuthConanFile):
         return os.path.dirname(os.path.abspath(__file__))
 
     name = "icu"
-    version = "65.1"
+    version = "64.2"
     homepage = "http://site.icu-project.org"
     license = "ICU"
     description = "ICU is a mature, widely used set of C/C++ and Java libraries " \
@@ -111,20 +111,16 @@ class ICUBase(KnuthConanFile):
         os.rename(self.name, self._source_subfolder)
 
     def _replace_pythonpath(self):
-        # if self._is_msvc:
-        self.output.info("def _replace_pythonpath(self)")
-        srcdir = os.path.join(self.build_folder, self._source_subfolder, "source")
-        configure = os.path.join(self._source_subfolder, "source", "configure")
+        if self._is_msvc:
+            srcdir = os.path.join(self.build_folder, self._source_subfolder, "source")
+            configure = os.path.join(self._source_subfolder, "source", "configure")
 
-        self.output.info("configure")
-        self.output.info(configure)
-
-        tools.replace_in_file(configure,
-                                'PYTHONPATH="$srcdir/data"',
-                                'PYTHONPATH="%s\\data"' % srcdir)
-        tools.replace_in_file(configure,
-                                'PYTHONPATH="$srcdir/test/testdata:$srcdir/data"',
-                                'PYTHONPATH="%s\\test\\testdata;%s\\data"' % (srcdir, srcdir))
+            tools.replace_in_file(configure,
+                                    'PYTHONPATH="$srcdir/data"',
+                                    'PYTHONPATH="%s\\data"' % srcdir)
+            tools.replace_in_file(configure,
+                                    'PYTHONPATH="$srcdir/test/testdata:$srcdir/data"',
+                                    'PYTHONPATH="%s\\test\\testdata;%s\\data"' % (srcdir, srcdir))
 
     def _workaround_icu_20545(self):
         if tools.os_info.is_windows:
