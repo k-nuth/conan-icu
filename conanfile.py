@@ -22,10 +22,17 @@ import glob
 import platform
 import shutil
 from conans import ConanFile, tools, AutoToolsBuildEnvironment
-from ci_utils import KnuthCxx11ABIFixer
+# from kthbuild import KnuthCxx11ABIFixer
+from kthbuild import KnuthConanFile
+
 
 # class ICUBase(ConanFile):
-class ICUBase(KnuthCxx11ABIFixer):
+# class ICUBase(KnuthCxx11ABIFixer):
+class ICUBase(KnuthConanFile):
+
+    def recipe_dir(self):
+        return os.path.dirname(os.path.abspath(__file__))
+
     name = "icu"
     version = "64.2"
     homepage = "http://site.icu-project.org"
@@ -43,14 +50,23 @@ class ICUBase(KnuthCxx11ABIFixer):
                "fPIC": [True, False],
                "data_packaging": ["files", "archive", "library", "static"],
                "with_unit_tests": [True, False],
-               "silent": [True, False]}
+               "silent": [True, False],
+               "verbose": [True, False],
+               "microarchitecture": "ANY",
+               "fix_march": [True, False],
+               "march_id": "ANY",
+               }
 
     default_options = {"shared": False,
                        "fPIC": True,
                        "data_packaging": "archive",
                        "with_unit_tests": False,
-                       "silent": True}
-
+                       "silent": True,
+                       "verbose": True,
+                       "microarchitecture": '_DUMMY_',
+                       "fix_march": False,
+                       "march_id": '_DUMMY_',
+                        }
 
     # url: "https://github.com/unicode-org/icu/releases/download/release-64-2/icu4c-64_2-src.tgz"
     # sha256: "627d5d8478e6d96fc8c90fed4851239079a561a6a8b9e48b0892f24e82d31d6c"
@@ -77,6 +93,12 @@ class ICUBase(KnuthCxx11ABIFixer):
     def build_requirements(self):
         if self._the_os == "Windows":
             self.build_requires("msys2/20161025")
+
+    def config_options(self):
+        KnuthConanFile.config_options(self)
+
+    def configure(self):
+        KnuthConanFile.configure(self)
 
     # def source(self):
     #     tools.get(**self.conan_data["sources"][self.version])
@@ -255,8 +277,14 @@ class ICUBase(KnuthCxx11ABIFixer):
                     self.run(command)
 
     def package_id(self):
-        del self.info.options.with_unit_tests  # ICU unit testing shouldn't affect the package's ID
-        del self.info.options.silent  # Verbosity doesn't affect package's ID
+        KnuthConanFile.package_id(self)
+
+        del self.info.options.with_unit_tests   # ICU unit testing shouldn't affect the package's ID
+        del self.info.options.silent            # Verbosity doesn't affect package's ID
+        del self.info.options.verbose           # Verbosity doesn't affect package's ID
+        del self.info.options.microarchitecture #TODO(fernando): implement it
+        del self.info.options.fix_march
+        del self.info.options.march_id
 
     def config_options(self):
         if self.settings.os == "Windows":
