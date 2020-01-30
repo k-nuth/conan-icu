@@ -41,6 +41,8 @@ class ICUBase(KnuthConanFile):
     _env_build = None
     short_paths = True
     settings = "os", "arch", "compiler", "build_type"
+    build_policy = "missing"
+
     options = {"shared": [True, False],
                "fPIC": [True, False],
                "data_packaging": ["files", "archive", "library", "static"],
