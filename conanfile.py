@@ -159,26 +159,27 @@ class ICUBase(KnuthConanFile):
 
         self._env_build = AutoToolsBuildEnvironment(self)
 
-        self.output.info(self._env_build.flags)
+        self.output.info('------------------------------------------------------------------')
+        self.output.info(self._env_build.cxx_flags)
+        self.output.info('------------------------------------------------------------------')
         if self.options.get_safe("glibcxx_supports_cxx11_abi"):
             self.output.info(self.options.glibcxx_supports_cxx11_abi)
 
             if self.options.glibcxx_supports_cxx11_abi:
-                # self._env_build.flags.append('-D_GLIBCXX_USE_CXX11_ABI=1')
-                self._env_build.flags.insert(0, '-D_GLIBCXX_USE_CXX11_ABI=1')
+                # self._env_build.cxx_flags.append('-D_GLIBCXX_USE_CXX11_ABI=1')
+                self._env_build.cxx_flags.insert(0, '-D_GLIBCXX_USE_CXX11_ABI=1')
             else:
-                # self._env_build.flags.append('-D_GLIBCXX_USE_CXX11_ABI=0')
-                self._env_build.flags.insert(0, '-D_GLIBCXX_USE_CXX11_ABI=0')
+                # self._env_build.cxx_flags.append('-D_GLIBCXX_USE_CXX11_ABI=0')
+                self._env_build.cxx_flags.insert(0, '-D_GLIBCXX_USE_CXX11_ABI=0')
 
             # if float(str(self.settings.compiler.version)) >= 5:
             #     cxx11_abi_str = '-D_GLIBCXX_USE_CXX11_ABI=1'
             # else:
             #     cxx11_abi_str = '-D_GLIBCXX_USE_CXX11_ABI=0'
 
-        self.output.info(self._env_build.flags)
-
-        # self._env_build.flags.append(tools.apple_deployment_target_flag(self._the_os, self.settings.os.version))
-
+        self.output.info('------------------------------------------------------------------')
+        self.output.info(self._env_build.cxx_flags)
+        self.output.info('------------------------------------------------------------------')
 
         if not self.options.get_safe("shared"):
             self._env_build.defines.append("U_STATIC_IMPLEMENTATION")
@@ -212,7 +213,9 @@ class ICUBase(KnuthConanFile):
                     self.run(command, win_bash=tools.os_info.is_windows)
 
         self._install_name_tool()
-        self.output.info(self._env_build.flags)
+        self.output.info('------------------------------------------------------------------')
+        self.output.info(self._env_build.cxx_flags)
+        self.output.info('------------------------------------------------------------------')
 
     def package(self):
         if self._is_msvc:
