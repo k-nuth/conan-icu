@@ -164,14 +164,16 @@ class ICUBase(KnuthConanFile):
             self.output.info(self.options.glibcxx_supports_cxx11_abi)
 
             if self.options.glibcxx_supports_cxx11_abi:
-                self._env_build.flags.append('-D_GLIBCXX_USE_CXX11_ABI=1')
+                # self._env_build.flags.append('-D_GLIBCXX_USE_CXX11_ABI=1')
+                self._env_build.flags.insert(0, '-D_GLIBCXX_USE_CXX11_ABI=1')
             else:
-                self._env_build.flags.append('-D_GLIBCXX_USE_CXX11_ABI=0')
+                # self._env_build.flags.append('-D_GLIBCXX_USE_CXX11_ABI=0')
+                self._env_build.flags.insert(0, '-D_GLIBCXX_USE_CXX11_ABI=0')
 
             # if float(str(self.settings.compiler.version)) >= 5:
-            #     cxx11_abi_str = '-D_GLIBCXX_USE_CXX11_ABI=1' 
+            #     cxx11_abi_str = '-D_GLIBCXX_USE_CXX11_ABI=1'
             # else:
-            #     cxx11_abi_str = '-D_GLIBCXX_USE_CXX11_ABI=0'             
+            #     cxx11_abi_str = '-D_GLIBCXX_USE_CXX11_ABI=0'
 
         self.output.info(self._env_build.flags)
 
@@ -210,6 +212,7 @@ class ICUBase(KnuthConanFile):
                     self.run(command, win_bash=tools.os_info.is_windows)
 
         self._install_name_tool()
+        self.output.info(self._env_build.flags)
 
     def package(self):
         if self._is_msvc:
