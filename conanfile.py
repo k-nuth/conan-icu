@@ -44,25 +44,33 @@ class ICUBase(KnuthConanFile):
     settings = "os", "arch", "compiler", "build_type"
     build_policy = "missing"
 
-    options = {"shared": [True, False],
-               "fPIC": [True, False],
-               "data_packaging": ["files", "archive", "library", "static"],
-               "tests": [True, False],
-               "verbose": [True, False],
-               "microarchitecture": "ANY",
-               "fix_march": [True, False],
-               "march_id": "ANY",
-               }
+    options = {
+        "shared": [True, False],
+        "fPIC": [True, False],
+        "data_packaging": ["files", "archive", "library", "static"],
+        "tests": [True, False],
+        "verbose": [True, False],
+        "microarchitecture": "ANY",
+        "fix_march": [True, False],
+        "march_id": "ANY",
+        "cxxflags": "ANY",
+        "cflags": "ANY",
+        "glibcxx_supports_cxx11_abi": "ANY",
+    }
 
-    default_options = {"shared": False,
-                       "fPIC": True,
-                       "data_packaging": "archive",
-                       "tests": False,
-                       "verbose": False,
-                       "microarchitecture": '_DUMMY_',
-                       "fix_march": False,
-                       "march_id": '_DUMMY_',
-                        }
+    default_options = {
+        "shared": False,
+        "fPIC": True,
+        "data_packaging": "archive",
+        "tests": False,
+        "verbose": False,
+        "microarchitecture": '_DUMMY_',
+        "fix_march": False,
+        "march_id": '_DUMMY_',
+        "cxxflags": '_DUMMY_',
+        "cflags": '_DUMMY_',
+        "glibcxx_supports_cxx11_abi": '_DUMMY_',
+    }
 
     # 64.2 url: "https://github.com/unicode-org/icu/releases/download/release-64-2/icu4c-64_2-src.tgz"
     # 64.2 sha256: "627d5d8478e6d96fc8c90fed4851239079a561a6a8b9e48b0892f24e82d31d6c"
