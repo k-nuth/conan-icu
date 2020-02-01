@@ -158,6 +158,26 @@ class ICUBase(KnuthConanFile):
         self._workaround_icu_20545()
 
         self._env_build = AutoToolsBuildEnvironment(self)
+
+        self.output.info(self._env_build.flags)
+        if self.options.get_safe("glibcxx_supports_cxx11_abi"):
+            self.output.info(self.options.glibcxx_supports_cxx11_abi)
+
+            if self.options.glibcxx_supports_cxx11_abi:
+                self._env_build.flags.append('-D_GLIBCXX_USE_CXX11_ABI=1')
+            else:
+                self._env_build.flags.append('-D_GLIBCXX_USE_CXX11_ABI=0')
+
+            # if float(str(self.settings.compiler.version)) >= 5:
+            #     cxx11_abi_str = '-D_GLIBCXX_USE_CXX11_ABI=1' 
+            # else:
+            #     cxx11_abi_str = '-D_GLIBCXX_USE_CXX11_ABI=0'             
+
+        self.output.info(self._env_build.flags)
+
+        # self._env_build.flags.append(tools.apple_deployment_target_flag(self._the_os, self.settings.os.version))
+
+
         if not self.options.get_safe("shared"):
             self._env_build.defines.append("U_STATIC_IMPLEMENTATION")
         if tools.is_apple_os(self._the_os):
