@@ -25,6 +25,12 @@ env:
      - CONAN_CHANNEL: "stable"
      - CONAN_UPLOAD: "https://api.bintray.com/conan/k-nuth/kth"
 
+cache:
+  timeout: 600
+  ccache: true
+  directories:
+    - $HOME/Library/Caches/Homebrew
+
 linux: &linux
    os: linux
    sudo: required

@@ -21,7 +21,8 @@ import os
 import glob
 import platform
 import shutil
-from conans import ConanFile, tools, AutoToolsBuildEnvironment
+# from conans import ConanFile, tools, AutoToolsBuildEnvironment
+from conans import tools, AutoToolsBuildEnvironment
 from kthbuild import KnuthConanFile
 
 class ICUBase(KnuthConanFile):
@@ -46,8 +47,7 @@ class ICUBase(KnuthConanFile):
     options = {"shared": [True, False],
                "fPIC": [True, False],
                "data_packaging": ["files", "archive", "library", "static"],
-               "with_unit_tests": [True, False],
-               "silent": [True, False],
+               "tests": [True, False],
                "verbose": [True, False],
                "microarchitecture": "ANY",
                "fix_march": [True, False],
@@ -57,9 +57,8 @@ class ICUBase(KnuthConanFile):
     default_options = {"shared": False,
                        "fPIC": True,
                        "data_packaging": "archive",
-                       "with_unit_tests": False,
-                       "silent": True,
-                       "verbose": True,
+                       "tests": False,
+                       "verbose": False,
                        "microarchitecture": '_DUMMY_',
                        "fix_march": False,
                        "march_id": '_DUMMY_',
@@ -70,6 +69,12 @@ class ICUBase(KnuthConanFile):
     source_url = "https://github.com/unicode-org/icu/releases/download/release-{0}/icu4c-{1}-src.tgz".format(version.replace('.', '-'), version.replace('.', '_'))
     data_url = "https://github.com/unicode-org/icu/releases/download/release-{0}/icu4c-{1}-data.zip".format(version.replace('.', '-'), version.replace('.', '_'))
 
+
+    @property
+    def _silent(self):
+        # return not self.options.verbose
+        return not self.options.get_safe("silent")
+    
     @property
     def _the_os(self):
         return self.settings.get_safe("os") or self.settings.get_safe("os_build")
@@ -93,12 +98,12 @@ class ICUBase(KnuthConanFile):
     def config_options(self):
         KnuthConanFile.config_options(self)
 
+    # def config_options(self):
+    #     if self.settings.os == "Windows":
+    #         del self.options.fPIC
+
     def configure(self):
         KnuthConanFile.configure(self)
-
-    # def source(self):
-    #     tools.get(**self.conan_data["sources"][self.version])
-    #     os.rename("icu", self._source_subfolder)
 
     def source(self):
         self.output.info("Fetching sources: {0}".format(self.source_url))
@@ -163,14 +168,14 @@ class ICUBase(KnuthConanFile):
                     os.makedirs(os.path.join("data", "out", "tmp"))
 
                     self.run(self._build_config_cmd, win_bash=tools.os_info.is_windows)
-                    if self.options.get_safe("silent"):
-                        silent = '--silent' if self.options.silent else 'VERBOSE=1'
+                    if self._silent:
+                        silent = '--silent' if self._silent else 'VERBOSE=1'
                     else:
                         silent = '--silent'
                     command = "make {silent} -j {cpu_count}".format(silent=silent,
                                                                     cpu_count=tools.cpu_count())
                     self.run(command, win_bash=tools.os_info.is_windows)
-                    if self.options.get_safe("with_unit_tests"):
+                    if self.options.get_safe("tests"):
                         command = "make {silent} check".format(silent=silent)
                         self.run(command, win_bash=tools.os_info.is_windows)
                     command = "make {silent} install".format(silent=silent)
@@ -257,7 +262,7 @@ class ICUBase(KnuthConanFile):
             args.extend(["--disable-static", "--enable-shared"])
         else:
             args.extend(["--enable-static", "--disable-shared"])
-        if not self.options.get_safe("with_unit_tests"):
+        if not self.options.get_safe("tests"):
             args.append('--disable-tests')
         return args
 
@@ -275,17 +280,6 @@ class ICUBase(KnuthConanFile):
 
     def package_id(self):
         KnuthConanFile.package_id(self)
-
-        del self.info.options.with_unit_tests   # ICU unit testing shouldn't affect the package's ID
-        del self.info.options.silent            # Verbosity doesn't affect package's ID
-        del self.info.options.verbose           # Verbosity doesn't affect package's ID
-        del self.info.options.microarchitecture #TODO(fernando): implement it
-        del self.info.options.fix_march
-        del self.info.options.march_id          #TODO(fernando): implement it
-
-    def config_options(self):
-        if self.settings.os == "Windows":
-            del self.options.fPIC
 
     def package_info(self):
         def lib_name(lib):
