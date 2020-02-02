@@ -79,7 +79,8 @@ environment:
 
 
 install:
-  - set PATH=%PYTHON%;%PYTHON%/Scripts/;%PATH%;
+  # - set PATH=%PYTHON%;%PYTHON%/Scripts/;%PATH%;
+  - set PATH=%PYTHON_HOME%;%PYTHON_HOME%/Scripts/;%PATH%
   - python.exe --version
   - python.exe -m pip install --upgrade pip
 
