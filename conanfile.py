@@ -191,9 +191,8 @@ class ICUBase(KnuthConanFile):
         self.output.info(self.settings.compiler)
         self.output.info(self.settings.compiler.libcxx)
         # abif = conans.client.build.compiler_flags.libcxx_define(self.settings.compiler, self.settings.compiler.libcxx)
-
-        self.output.info('------------------------------------------------------------------')
-        self.output.info(abif)
+        # self.output.info('------------------------------------------------------------------')
+        # self.output.info(abif)
         self.output.info('------------------------------------------------------------------')
         self.output.info(self._env_build.cxx_flags)
         self.output.info('------------------------------------------------------------------')
