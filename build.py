@@ -1,19 +1,17 @@
+# #!/usr/bin/env python
+# # -*- coding: utf-8 -*-
+
 import os
 from conan.packager import ConanMultiPackager
 from kthbuild import get_name_from_recipe, get_base_march_ids, get_builder, handle_microarchs, copy_env_vars, filter_valid_exts, filter_marchs_tests
 
 if __name__ == "__main__":
-    # builder, name = get_builder(os.path.dirname(os.path.abspath(__file__)))
-    # builder.add_common_builds(shared_option_name="%s:shared" % name)
-
     recipe_dir = os.path.dirname(os.path.abspath(__file__))
     name = get_name_from_recipe(recipe_dir)
 
     builder = ConanMultiPackager(username="kth", channel="stable", archs=["x86_64"]
                                 , remotes="https://api.bintray.com/conan/k-nuth/kth")
-    # builder.add_common_builds(shared_option_name="icu:shared", pure_c=False)
     builder.add_common_builds(shared_option_name="%s:shared" % name, pure_c=False)
-
 
     march_ids = get_base_march_ids()
 
