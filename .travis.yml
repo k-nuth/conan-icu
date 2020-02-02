@@ -119,6 +119,10 @@ matrix:
       #   osx_image: xcode8.2
       #   env: CONAN_APPLE_CLANG_VERSIONS=8.0
 
+
+before_cache:
+  - if [ "${TRAVIS_OS_NAME}" = "osx" ]; then brew cleanup; fi
+
 install:
   # - chmod +x .travis/install.sh
   # - ./.travis/install.sh
