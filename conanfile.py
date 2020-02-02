@@ -38,7 +38,7 @@ class KnuthAutoToolsBuildEnvironment(AutoToolsBuildEnvironment):
         print(ret)
         ret = [x.replace('_GLIBCXX_USE_CXX11_ABI=0', '_GLIBCXX_USE_CXX11_ABI=1') for x in ret]
         print(ret)
-        return res
+        return ret
 
         # # requires declared defines
         # ret = copy.copy(self._deps_cpp_info.defines)
