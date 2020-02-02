@@ -30,6 +30,30 @@ from conans.client.build import join_arguments
 
 import conans.client #.build.compiler_flags
 
+class KnuthAutoToolsBuildEnvironment(AutoToolsBuildEnvironment):
+    def _configure_defines(self):
+        print('******----******----******----******----******----******----******----******----')
+        print('_configure_defines')
+        print('******----******----******----******----******----******----******----******----')
+
+        ret = AutoToolsBuildEnvironment._configure_defines(self)
+        print(ret)
+
+        # # requires declared defines
+        # ret = copy.copy(self._deps_cpp_info.defines)
+
+        # # Debug definition for GCC
+        # btf = build_type_define(build_type=self._build_type)
+        # if btf:
+        #     ret.append(btf)
+
+        # # CXX11 ABI
+        # abif = libcxx_define(compiler=self._compiler, libcxx=self._libcxx)
+        # if abif:
+        #     ret.append(abif)
+        # return ret
+
+
 def libcxx_define_replacement(compiler, libcxx):
     print('******----******----******----******----******----******----******----******----')
     print('libcxx_define_replacement')
@@ -182,7 +206,7 @@ class ICUBase(KnuthConanFile):
         conans.client.build.compiler_flags.libcxx_define = libcxx_define_replacement
         self.output.info('******************************************************************')
 
-        self._env_build = AutoToolsBuildEnvironment(self)
+        self._env_build = KnuthAutoToolsBuildEnvironment(self)
 
         self.output.info('******************************************************************')
         conans.client.build.compiler_flags.libcxx_define = libcxx_define_replacement
