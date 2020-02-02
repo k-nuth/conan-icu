@@ -31,9 +31,9 @@ from conans.client.build import join_arguments
 import conans.client #.build.compiler_flags
 
 def libcxx_define_replacement(compiler, libcxx):
-    print('------------------------------------------------------------------')
+    print('******----******----******----******----******----******----******----******----')
     print('libcxx_define_replacement')
-    print('------------------------------------------------------------------')
+    print('******----******----******----******----******----******----******----******----')
 
     if not compiler or not libcxx:
         return ""
@@ -184,33 +184,39 @@ class ICUBase(KnuthConanFile):
 
         self._env_build = AutoToolsBuildEnvironment(self)
 
+        self.output.info('******************************************************************')
+        conans.client.build.compiler_flags.libcxx_define = libcxx_define_replacement
+        self.output.info('******************************************************************')
 
         self.output.info(self.settings.compiler)
         self.output.info(self.settings.compiler.libcxx)
-        abif = conans.client.build.compiler_flags.libcxx_define(self.settings.compiler, self.settings.compiler.libcxx)
+        # abif = conans.client.build.compiler_flags.libcxx_define(self.settings.compiler, self.settings.compiler.libcxx)
+
+        self.output.info('------------------------------------------------------------------')
         self.output.info(abif)
-
         self.output.info('------------------------------------------------------------------')
         self.output.info(self._env_build.cxx_flags)
         self.output.info('------------------------------------------------------------------')
-        if self.options.get_safe("glibcxx_supports_cxx11_abi"):
-            self.output.info(self.options.glibcxx_supports_cxx11_abi)
 
-            if self.options.glibcxx_supports_cxx11_abi:
-                # self._env_build.cxx_flags.append('-D_GLIBCXX_USE_CXX11_ABI=1')
-                self._env_build.cxx_flags.insert(0, '-D_GLIBCXX_USE_CXX11_ABI=1')
-            else:
-                # self._env_build.cxx_flags.append('-D_GLIBCXX_USE_CXX11_ABI=0')
-                self._env_build.cxx_flags.insert(0, '-D_GLIBCXX_USE_CXX11_ABI=0')
 
-            # if float(str(self.settings.compiler.version)) >= 5:
-            #     cxx11_abi_str = '-D_GLIBCXX_USE_CXX11_ABI=1'
-            # else:
-            #     cxx11_abi_str = '-D_GLIBCXX_USE_CXX11_ABI=0'
+        # if self.options.get_safe("glibcxx_supports_cxx11_abi"):
+        #     self.output.info(self.options.glibcxx_supports_cxx11_abi)
 
-        self.output.info('------------------------------------------------------------------')
-        self.output.info(self._env_build.cxx_flags)
-        self.output.info('------------------------------------------------------------------')
+        #     if self.options.glibcxx_supports_cxx11_abi:
+        #         # self._env_build.cxx_flags.append('-D_GLIBCXX_USE_CXX11_ABI=1')
+        #         self._env_build.cxx_flags.insert(0, '-D_GLIBCXX_USE_CXX11_ABI=1')
+        #     else:
+        #         # self._env_build.cxx_flags.append('-D_GLIBCXX_USE_CXX11_ABI=0')
+        #         self._env_build.cxx_flags.insert(0, '-D_GLIBCXX_USE_CXX11_ABI=0')
+
+        #     # if float(str(self.settings.compiler.version)) >= 5:
+        #     #     cxx11_abi_str = '-D_GLIBCXX_USE_CXX11_ABI=1'
+        #     # else:
+        #     #     cxx11_abi_str = '-D_GLIBCXX_USE_CXX11_ABI=0'
+
+        # self.output.info('------------------------------------------------------------------')
+        # self.output.info(self._env_build.cxx_flags)
+        # self.output.info('------------------------------------------------------------------')
 
         if not self.options.get_safe("shared"):
             self._env_build.defines.append("U_STATIC_IMPLEMENTATION")
