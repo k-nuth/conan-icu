@@ -25,10 +25,8 @@ import shutil
 from conans import tools, AutoToolsBuildEnvironment
 from kthbuild import KnuthConanFile
 
-from conans.client.build import join_arguments
-# from conans.client.build.compiler_flags import libcxx_define
-
-import conans.client #.build.compiler_flags
+# from conans.client.build import join_arguments
+# import conans.client #.build.compiler_flags
 
 class KnuthAutoToolsBuildEnvironment(AutoToolsBuildEnvironment):
     def _configure_defines(self):
@@ -38,6 +36,9 @@ class KnuthAutoToolsBuildEnvironment(AutoToolsBuildEnvironment):
 
         ret = AutoToolsBuildEnvironment._configure_defines(self)
         print(ret)
+        ret = [x.replace('_GLIBCXX_USE_CXX11_ABI=0', '_GLIBCXX_USE_CXX11_ABI=1') for x in ret]
+        print(ret)
+        return res
 
         # # requires declared defines
         # ret = copy.copy(self._deps_cpp_info.defines)
@@ -54,20 +55,20 @@ class KnuthAutoToolsBuildEnvironment(AutoToolsBuildEnvironment):
         # return ret
 
 
-def libcxx_define_replacement(compiler, libcxx):
-    print('******----******----******----******----******----******----******----******----')
-    print('libcxx_define_replacement')
-    print('******----******----******----******----******----******----******----******----')
+# def libcxx_define_replacement(compiler, libcxx):
+#     print('******----******----******----******----******----******----******----******----')
+#     print('libcxx_define_replacement')
+#     print('******----******----******----******----******----******----******----******----')
 
-    if not compiler or not libcxx:
-        return ""
+#     if not compiler or not libcxx:
+#         return ""
 
-    if str(compiler) in ['gcc', 'clang', 'apple-clang']:
-        if str(libcxx) == 'libstdc++':
-            return '_GLIBCXX_USE_CXX11_ABI=1'
-        elif str(libcxx) == 'libstdc++11':
-            return '_GLIBCXX_USE_CXX11_ABI=1'
-    return ""
+#     if str(compiler) in ['gcc', 'clang', 'apple-clang']:
+#         if str(libcxx) == 'libstdc++':
+#             return '_GLIBCXX_USE_CXX11_ABI=1'
+#         elif str(libcxx) == 'libstdc++11':
+#             return '_GLIBCXX_USE_CXX11_ABI=1'
+#     return ""
 
 class ICUBase(KnuthConanFile):
     def recipe_dir(self):
@@ -202,18 +203,18 @@ class ICUBase(KnuthConanFile):
         self._workaround_icu_20545()
 
 
-        self.output.info('******************************************************************')
-        conans.client.build.compiler_flags.libcxx_define = libcxx_define_replacement
-        self.output.info('******************************************************************')
+        # self.output.info('******************************************************************')
+        # conans.client.build.compiler_flags.libcxx_define = libcxx_define_replacement
+        # self.output.info('******************************************************************')
 
         self._env_build = KnuthAutoToolsBuildEnvironment(self)
 
-        self.output.info('******************************************************************')
-        conans.client.build.compiler_flags.libcxx_define = libcxx_define_replacement
-        self.output.info('******************************************************************')
+        # self.output.info('******************************************************************')
+        # conans.client.build.compiler_flags.libcxx_define = libcxx_define_replacement
+        # self.output.info('******************************************************************')
 
-        self.output.info(self.settings.compiler)
-        self.output.info(self.settings.compiler.libcxx)
+        # self.output.info(self.settings.compiler)
+        # self.output.info(self.settings.compiler.libcxx)
         # abif = conans.client.build.compiler_flags.libcxx_define(self.settings.compiler, self.settings.compiler.libcxx)
         # self.output.info('------------------------------------------------------------------')
         # self.output.info(abif)
