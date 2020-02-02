@@ -21,54 +21,16 @@ import os
 import glob
 import platform
 import shutil
-# from conans import ConanFile, tools, AutoToolsBuildEnvironment
 from conans import tools, AutoToolsBuildEnvironment
 from kthbuild import KnuthConanFile
 
-# from conans.client.build import join_arguments
-# import conans.client #.build.compiler_flags
-
 class KnuthAutoToolsBuildEnvironment(AutoToolsBuildEnvironment):
     def _configure_defines(self):
-        print('******----******----******----******----******----******----******----******----')
-        print('_configure_defines')
-        print('******----******----******----******----******----******----******----******----')
-
         ret = AutoToolsBuildEnvironment._configure_defines(self)
-        print(ret)
+        # print(ret)
         ret = [x.replace('_GLIBCXX_USE_CXX11_ABI=0', '_GLIBCXX_USE_CXX11_ABI=1') for x in ret]
-        print(ret)
+        # print(ret)
         return ret
-
-        # # requires declared defines
-        # ret = copy.copy(self._deps_cpp_info.defines)
-
-        # # Debug definition for GCC
-        # btf = build_type_define(build_type=self._build_type)
-        # if btf:
-        #     ret.append(btf)
-
-        # # CXX11 ABI
-        # abif = libcxx_define(compiler=self._compiler, libcxx=self._libcxx)
-        # if abif:
-        #     ret.append(abif)
-        # return ret
-
-
-# def libcxx_define_replacement(compiler, libcxx):
-#     print('******----******----******----******----******----******----******----******----')
-#     print('libcxx_define_replacement')
-#     print('******----******----******----******----******----******----******----******----')
-
-#     if not compiler or not libcxx:
-#         return ""
-
-#     if str(compiler) in ['gcc', 'clang', 'apple-clang']:
-#         if str(libcxx) == 'libstdc++':
-#             return '_GLIBCXX_USE_CXX11_ABI=1'
-#         elif str(libcxx) == 'libstdc++11':
-#             return '_GLIBCXX_USE_CXX11_ABI=1'
-#     return ""
 
 class ICUBase(KnuthConanFile):
     def recipe_dir(self):
@@ -150,10 +112,6 @@ class ICUBase(KnuthConanFile):
 
     def config_options(self):
         KnuthConanFile.config_options(self)
-
-    # def config_options(self):
-    #     if self.settings.os == "Windows":
-    #         del self.options.fPIC
 
     def configure(self):
         KnuthConanFile.configure(self)
