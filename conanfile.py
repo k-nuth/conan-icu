@@ -1,21 +1,6 @@
-#
-# Copyright (c) 2016-2020 Knuth Project.
-#
-# This file is part of Knuth Project.
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Affero General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU Affero General Public License for more details.
-#
-# You should have received a copy of the GNU Affero General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
+# Copyright (c) 2016-2020 Knuth Project developers.
+# Distributed under the MIT software license, see the accompanying
+# file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 import os
 import glob
@@ -108,7 +93,10 @@ class ICUBase(KnuthConanFile):
 
     def build_requirements(self):
         if self._the_os == "Windows":
-            self.build_requires("msys2/20161025")
+            self.build_requires("msys2/20161025@")
+
+    def package_id(self):
+        KnuthConanFile.package_id(self)
 
     def config_options(self):
         KnuthConanFile.config_options(self)
@@ -331,8 +319,6 @@ class ICUBase(KnuthConanFile):
                     self.output.info(command)
                     self.run(command)
 
-    def package_id(self):
-        KnuthConanFile.package_id(self)
 
     def package_info(self):
         def lib_name(lib):
