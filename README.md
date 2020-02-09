@@ -1,7 +1,7 @@
 [![Download](https://api.bintray.com/packages/k-nuth/kth/icu%3Akth/images/download.svg) ](https://bintray.com/k-nuth/kth/icu%3Akth/_latestVersion)
-[![Build Status](https://travis-ci.org/k-nuth/kth-conan-icu.svg?branch=stable%2F64.2)](https://travis-ci.org/kth/kth-conan-icu)
-[![Build status](https://ci.appveyor.com/api/projects/status/github/k-nuth/kth-conan-icu?branch=stable%2F64.2&svg=true)](https://ci.appveyor.com/project/k-nuth/kth-conan-icu)
-[![Build Status](https://api.cirrus-ci.com/github/k-nuth/kth-conan-icu.svg?branch=master)](https://cirrus-ci.com/github/k-nuth/kth-conan-icu)
+[![Build Status](https://travis-ci.org/k-nuth/conan-icu.svg?branch=stable%2F64.2)](https://travis-ci.org/kth/conan-icu)
+[![Build status](https://ci.appveyor.com/api/projects/status/github/k-nuth/conan-icu?branch=stable%2F64.2&svg=true)](https://ci.appveyor.com/project/k-nuth/conan-icu)
+[![Build Status](https://api.cirrus-ci.com/github/k-nuth/conan-icu.svg?branch=master)](https://cirrus-ci.com/github/k-nuth/conan-icu)
 
 [Conan.io](https://conan.io) package recipe for [*icu*](http://site.icu-project.org).
 
@@ -62,5 +62,5 @@ The following command both runs all the steps of the conan file, and publishes t
 NOTE: The conan recipe license applies only to the files of this recipe, which can be used to build and package icu.
 It does *not* in any way apply or is related to the actual software being packaged.
 
-[MIT](https://github.com/k-nuth/kth-conan-icu.git/blob/stable/64.2/LICENSE.md)
+[MIT](https://github.com/k-nuth/conan-icu.git/blob/stable/64.2/LICENSE.md)
 
