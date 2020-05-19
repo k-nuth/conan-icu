@@ -32,22 +32,22 @@ environment:
         CONAN_VISUAL_VERSIONS: 16
         CONAN_VISUAL_RUNTIMES: MDd
 
-      - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-        CONAN_VISUAL_VERSIONS: 15
-        CONAN_VISUAL_RUNTIMES: MT
-        VS150COMNTOOLS: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\Tools\\"
-      - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-        CONAN_VISUAL_VERSIONS: 15
-        CONAN_VISUAL_RUNTIMES: MD
-        VS150COMNTOOLS: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\Tools\\"
-      - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-        CONAN_VISUAL_VERSIONS: 15
-        CONAN_VISUAL_RUNTIMES: MTd
-        VS150COMNTOOLS: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\Tools\\"
-      - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-        CONAN_VISUAL_VERSIONS: 15
-        CONAN_VISUAL_RUNTIMES: MDd
-        VS150COMNTOOLS: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\Tools\\"
+      # - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      #   CONAN_VISUAL_VERSIONS: 15
+      #   CONAN_VISUAL_RUNTIMES: MT
+      #   VS150COMNTOOLS: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\Tools\\"
+      # - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      #   CONAN_VISUAL_VERSIONS: 15
+      #   CONAN_VISUAL_RUNTIMES: MD
+      #   VS150COMNTOOLS: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\Tools\\"
+      # - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      #   CONAN_VISUAL_VERSIONS: 15
+      #   CONAN_VISUAL_RUNTIMES: MTd
+      #   VS150COMNTOOLS: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\Tools\\"
+      # - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      #   CONAN_VISUAL_VERSIONS: 15
+      #   CONAN_VISUAL_RUNTIMES: MDd
+      #   VS150COMNTOOLS: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\Common7\\Tools\\"
 
       # - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       #   CONAN_VISUAL_VERSIONS: 14
