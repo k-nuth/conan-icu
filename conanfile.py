@@ -22,7 +22,7 @@ class ICUBase(KnuthConanFile):
         return os.path.dirname(os.path.abspath(__file__))
 
     name = "icu"
-    version = "64.2"
+    version = "67.1"
     homepage = "http://site.icu-project.org"
     license = "ICU"
     description = "ICU is a mature, widely used set of C/C++ and Java libraries " \
