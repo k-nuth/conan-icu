@@ -145,8 +145,8 @@ class ICUBase(KnuthConanFile):
             tools.replace_in_file(run_configure_icu_file, "-MDd", flags)
             tools.replace_in_file(run_configure_icu_file, "-MD", flags)
 
-        self._replace_pythonpath() # ICU 64.1
-        self._workaround_icu_20545()
+        # self._replace_pythonpath() # ICU 64.1
+        # self._workaround_icu_20545()
 
 
         # self.output.info('******************************************************************')
