@@ -20,7 +20,7 @@ if [[ "$(uname -s)" == 'Darwin' ]]; then
 fi
 
 # pip install conan --upgrade
-pip install conan_package_tools
+pip install conan_package_tools --upgrade
 pip install kthbuild --upgrade
 
 conan user

@@ -72,7 +72,7 @@ install:
   - python.exe -m pip install --upgrade pip
 
   # - pip.exe install conan --upgrade
-  - pip.exe install conan_package_tools
+  - pip.exe install conan_package_tools --upgrade
   - pip.exe install kthbuild
   - conan user # It creates the conan data directory
 
