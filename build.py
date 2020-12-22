@@ -2,7 +2,7 @@
 # # -*- coding: utf-8 -*-
 
 import os
-from conan.packager import ConanMultiPackager
+from cpt.packager import ConanMultiPackager
 from kthbuild import get_name_from_recipe, get_base_march_ids, get_builder, handle_microarchs, copy_env_vars, filter_valid_exts, filter_marchs_tests
 
 if __name__ == "__main__":
